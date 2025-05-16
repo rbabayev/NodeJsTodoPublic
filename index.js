@@ -3,7 +3,10 @@ import dotenv from "dotenv";
 import cors from "cors";
 import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
+
+import userRoutes from "./routes/users.route.js";
 import todoRoutes from "./routes/todos.route.js";
+import authRoutes from "./routes/auth.route.js";
 
 dotenv.config();
 
@@ -13,6 +16,8 @@ app.use(cors());
 app.use(cookieParser());
 app.use(express.json());
 
+app.use("/api/auth", authRoutes);
+app.use("/api/users", userRoutes);
 app.use("/api/todos", todoRoutes);
 
 const connectDB = async () => {
@@ -25,7 +30,6 @@ const connectDB = async () => {
   }
 };
 
-// Start the server
 app.listen(process.env.PORT, () => {
   console.log(`Server running on http://localhost:${process.env.PORT}`);
   connectDB();
